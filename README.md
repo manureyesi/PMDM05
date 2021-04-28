@@ -3,10 +3,10 @@
 ## Diseño
 
 Tratar de aproximarse aldiseño de las pantallas que se muestran a continuación.
-1.Posiciones de los elementos: 
-  No se usó ningún margen, posición, etc. 
-2.Colores: 
-  Se usaron colores básicos.
+  1.Posiciones de los elementos: 
+    No se usó ningún margen, posición, etc. 
+  2.Colores: 
+    Se usaron colores básicos.
   
 ### Actividad Principal
   
