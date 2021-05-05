@@ -19,6 +19,10 @@
             android:text="@string/text_1"
             android:background="@color/purple_700" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
         <Button
             android:id="@+id/button_2_prov"
             android:layout_width="match_parent"

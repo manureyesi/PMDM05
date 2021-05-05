@@ -11,11 +11,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class U6StudentManu extends AppCompatActivity {
 
     private Button botonCalc1;
     private Button botonProvincia2;
+    private String provinciaUsuario;
+
+    public final static String PROVINCIA = "PROVINCIA";
+    private final int COD_PETICION = 33;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,8 @@ public class U6StudentManu extends AppCompatActivity {
 
         // Boton para ver provincia
         botonProvincia2.setOnClickListener(this::onClickProvinciasToast);
+
+        provinciaUsuario = null;
 
     }
 
@@ -87,8 +94,8 @@ public class U6StudentManu extends AppCompatActivity {
         emailIntent.setType("text/plain");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
         emailIntent.putExtra(Intent.EXTRA_CC, CC);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.text_email_asunto);
-        emailIntent.putExtra(Intent.EXTRA_TEXT, R.string.text_email_texto);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.text_email_asunto));
+        emailIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.text_email_texto));
 
         try {
             startActivity(Intent.createChooser(emailIntent, "Enviar email."));
@@ -98,14 +105,44 @@ public class U6StudentManu extends AppCompatActivity {
         }
     }
 
+    /**
+     * Abrir activity 2
+     * @param view
+     */
     private void onClickShortPronv (View view) {
         final String TAG = "onClickShortPronv:";
-        Log.i(TAG, "Lanzamos la segunda activiti");
+        Log.i(TAG, "Lanzamos la segunda activity");
+        Intent intentActivity2 = new Intent(getApplicationContext(), U6StudentManuActivity2.class);
+        startActivityForResult(intentActivity2, COD_PETICION);
+
+        String provincia = intentActivity2.getStringExtra(PROVINCIA);
+
+        // Comprobar provincia
+        if (provincia != null && !provincia.equals("")) {
+            provinciaUsuario = provincia;
+        }
+
     }
 
+    /**
+     * Mostrar toast con provincia
+     * @param view
+     */
     private void onClickProvinciasToast (View view) {
         final String TAG = "onClickProvinciasToast:";
         Log.i(TAG, "Toast para ver provincia seleccionada");
+
+        Toast provincias;
+        if (provinciaUsuario == null) {
+            provincias = Toast.makeText(getApplicationContext(),
+                    getString(R.string.text_tost_provincia_no_seleccionada), Toast.LENGTH_SHORT);
+        } else {
+            provincias = Toast.makeText(getApplicationContext(),
+                    getString(R.string.text_tost_provincia_seleccionada)
+                            .replace("{}", provinciaUsuario), Toast.LENGTH_SHORT);
+        }
+        provincias.show();
+
     }
 
 }

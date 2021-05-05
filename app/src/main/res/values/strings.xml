@@ -9,4 +9,6 @@
     <string name="text_email_enviar">manureyesi@outlook.es</string>
     <string name="text_activity_2_provincias">Teclee una provincia</string>
     <string name="text_activity_2_boton">Cerrar</string>
+    <string name="text_tost_provincia_seleccionada">La provincia tecleada es la {}</string>
+    <string name="text_tost_provincia_no_seleccionada">Teclee una provincia</string>
 </resources>

@@ -1,7 +1,11 @@
 package net.iessanclemente.pmdm.u6_student_manu;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -31,12 +35,21 @@ public class U6StudentManuActivity2 extends AppCompatActivity {
     private void modificarProvincia (View view) {
         final String TAG = "modificarProvincia:";
 
-        if (this.textoProvincia.getText() != null) {
-            ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(
-                    this, android.R.layout.simple_list_item_1);
+        Log.i(TAG, "Se acaba de teclear la provincia "
+                .concat(this.textoProvincia.getText().toString()));
 
-            itemsAdapter.add(this.textoProvincia.getText().toString());
+        if (this.textoProvincia.getText() != null &&
+                !this.textoProvincia.getText().toString().equals("")) {
+
+            Log.i(TAG, "Provincia - ".concat(this.textoProvincia.getText().toString()));
+
+            Intent datos_vuelta = new Intent();
+            datos_vuelta.putExtra(U6StudentManu.PROVINCIA, this.textoProvincia.getText().toString());
+            setResult(RESULT_OK, datos_vuelta);
         }
+
+        // Finalizamos la activity secundaria
+        super.finish();
 
     }
 
