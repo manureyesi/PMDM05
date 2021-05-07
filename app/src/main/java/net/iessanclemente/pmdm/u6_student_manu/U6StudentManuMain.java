@@ -12,8 +12,11 @@ import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class U6StudentManuMain extends AppCompatActivity {
 
@@ -23,7 +26,8 @@ public class U6StudentManuMain extends AppCompatActivity {
     public final static String PROVINCIA = "PROVINCIA";
     private final int COD_PETICION = 33;
 
-    private SharedPreferences myPreferences;
+    private ArrayAdapter<String> adaptador1;
+    private ArrayList<String> datos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +45,7 @@ public class U6StudentManuMain extends AppCompatActivity {
         // Boton para ver provincia
         botonProvincia2.setOnClickListener(this::onClickProvinciasToast);
 
-        // Añadir preferencias
-        myPreferences
-                = PreferenceManager.getDefaultSharedPreferences(U6StudentManuMain.this);
+        adaptador1=new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, datos);
 
     }
 
@@ -129,10 +131,10 @@ public class U6StudentManuMain extends AppCompatActivity {
         if(resultCode != 0){
                 String result = data.getStringExtra(PROVINCIA);
                 Log.i(TAG, "Provincia - ".concat(result));
-                // tu codigo para continuar procesando
-                SharedPreferences.Editor myEditor = myPreferences.edit();
-                myEditor.putString(PROVINCIA, result);
-                myEditor.commit();
+                // Añadir datos a la lista
+                datos = new ArrayList<>();
+                datos.add(result);
+                adaptador1.notifyDataSetChanged();
         } else {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.text_toast_provincia_salir), Toast.LENGTH_LONG).show();
@@ -148,7 +150,7 @@ public class U6StudentManuMain extends AppCompatActivity {
         Log.i(TAG, "Toast para ver provincia seleccionada");
 
         Toast provincias;
-        String provinciaUsuario = toUpperCaseFirstChar(myPreferences.getString(PROVINCIA, null));
+        String provinciaUsuario = datos == null ? null : datos.size() == 1 ? datos.get(0) : null;
         if (provinciaUsuario == null) {
             provincias = Toast.makeText(getApplicationContext(),
                     getString(R.string.text_toast_provincia_no_seleccionada), Toast.LENGTH_SHORT);
@@ -159,26 +161,6 @@ public class U6StudentManuMain extends AppCompatActivity {
         }
         provincias.show();
 
-    }
-
-    /**
-     * Poner en mayusculas la primera letra de la cadena
-     * @param cadena
-     * @return
-     */
-    private String toUpperCaseFirstChar (final String cadena) {
-
-        String cadenaStr = null;
-        if (cadena != null && cadena.length() == 1) {
-            cadenaStr = cadena.toUpperCase();
-        } else if (cadena.length() > 1) {
-            StringBuilder cadenaFinal = new StringBuilder();
-            cadenaFinal.append(Character.toString(cadena.charAt(0)).toUpperCase());
-            cadenaFinal.append(cadena.substring(1));
-            cadenaStr = cadenaFinal.toString();
-        }
-
-        return cadenaStr;
     }
 
 }
