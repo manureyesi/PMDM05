@@ -2,7 +2,9 @@ package net.iessanclemente.pmdm.u6_student_manu;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,10 +19,11 @@ public class U6StudentManuMain extends AppCompatActivity {
 
     private Button botonCalc1;
     private Button botonProvincia2;
-    private String provinciaUsuario;
 
     public final static String PROVINCIA = "PROVINCIA";
     private final int COD_PETICION = 33;
+
+    private SharedPreferences myPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,9 @@ public class U6StudentManuMain extends AppCompatActivity {
         // Boton para ver provincia
         botonProvincia2.setOnClickListener(this::onClickProvinciasToast);
 
-        provinciaUsuario = null;
+        // Añadir preferencias
+        myPreferences
+                = PreferenceManager.getDefaultSharedPreferences(U6StudentManuMain.this);
 
     }
 
@@ -125,7 +130,12 @@ public class U6StudentManuMain extends AppCompatActivity {
                 String result = data.getStringExtra(PROVINCIA);
                 Log.i(TAG, "Provincia - ".concat(result));
                 // tu codigo para continuar procesando
-                provinciaUsuario = result;
+                SharedPreferences.Editor myEditor = myPreferences.edit();
+                myEditor.putString(PROVINCIA, result);
+                myEditor.commit();
+        } else {
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.text_toast_provincia_salir), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -138,16 +148,37 @@ public class U6StudentManuMain extends AppCompatActivity {
         Log.i(TAG, "Toast para ver provincia seleccionada");
 
         Toast provincias;
+        String provinciaUsuario = toUpperCaseFirstChar(myPreferences.getString(PROVINCIA, null));
         if (provinciaUsuario == null) {
             provincias = Toast.makeText(getApplicationContext(),
-                    getString(R.string.text_tost_provincia_no_seleccionada), Toast.LENGTH_SHORT);
+                    getString(R.string.text_toast_provincia_no_seleccionada), Toast.LENGTH_SHORT);
         } else {
             provincias = Toast.makeText(getApplicationContext(),
-                    getString(R.string.text_tost_provincia_seleccionada)
-                            .replace("{}", provinciaUsuario), Toast.LENGTH_SHORT);
+                    getString(R.string.text_toast_provincia_seleccionada)
+                            .replace("{}", provinciaUsuario), Toast.LENGTH_LONG);
         }
         provincias.show();
 
+    }
+
+    /**
+     * Poner en mayusculas la primera letra de la cadena
+     * @param cadena
+     * @return
+     */
+    private String toUpperCaseFirstChar (final String cadena) {
+
+        String cadenaStr = null;
+        if (cadena != null && cadena.length() == 1) {
+            cadenaStr = cadena.toUpperCase();
+        } else if (cadena.length() > 1) {
+            StringBuilder cadenaFinal = new StringBuilder();
+            cadenaFinal.append(Character.toString(cadena.charAt(0)).toUpperCase());
+            cadenaFinal.append(cadena.substring(1));
+            cadenaStr = cadenaFinal.toString();
+        }
+
+        return cadenaStr;
     }
 
 }
