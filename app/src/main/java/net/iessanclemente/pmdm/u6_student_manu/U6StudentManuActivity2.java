@@ -35,15 +35,11 @@ public class U6StudentManuActivity2 extends AppCompatActivity {
         Log.i(TAG, "Se acaba de teclear la provincia "
                 .concat(this.textoProvincia.getText().toString()));
 
-        if (this.textoProvincia.getText() != null &&
-                !this.textoProvincia.getText().toString().equals("")) {
+        Log.i(TAG, "Provincia - ".concat(this.textoProvincia.getText().toString()));
 
-            Log.i(TAG, "Provincia - ".concat(this.textoProvincia.getText().toString()));
-
-            Intent datos_vuelta = new Intent();
-            datos_vuelta.putExtra(U6StudentManuMain.PROVINCIA, toUpperCaseFirstChar(this.textoProvincia.getText().toString()));
-            setResult(RESULT_OK, datos_vuelta);
-        }
+        Intent datos_vuelta = new Intent();
+        datos_vuelta.putExtra(U6StudentManuMain.PROVINCIA, toUpperCaseFirstChar(this.textoProvincia.getText().toString()));
+        setResult(RESULT_OK, datos_vuelta);
 
         // Finalizamos la activity secundaria
         super.finish();

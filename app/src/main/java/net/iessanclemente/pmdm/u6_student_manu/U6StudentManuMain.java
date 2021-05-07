@@ -2,7 +2,9 @@ package net.iessanclemente.pmdm.u6_student_manu;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,11 +12,8 @@ import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 public class U6StudentManuMain extends AppCompatActivity {
 
@@ -24,8 +23,7 @@ public class U6StudentManuMain extends AppCompatActivity {
     public final static String PROVINCIA = "PROVINCIA";
     private final int COD_PETICION = 33;
 
-    private ArrayAdapter<String> adaptador1;
-    private ArrayList<String> datos;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +41,9 @@ public class U6StudentManuMain extends AppCompatActivity {
         // Boton para ver provincia
         botonProvincia2.setOnClickListener(this::onClickProvinciasToast);
 
-        adaptador1=new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, datos);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+
 
     }
 
@@ -92,7 +92,7 @@ public class U6StudentManuMain extends AppCompatActivity {
         final String TAG = "lanzarCorreo:";
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
 
-        String[] TO = {getString(R.string.email_destinatario)}; //Direcciones email  a enviar.
+        String[] TO = {getString(R.string.text_email_enviar)}; //Direcciones email  a enviar.
         String[] CC = {""}; //Direcciones email con copia.
 
         emailIntent.setData(Uri.parse("mailto:"));
@@ -128,11 +128,16 @@ public class U6StudentManuMain extends AppCompatActivity {
                 .concat(" ResultCode - ").concat(String.valueOf(resultCode)));
         if(resultCode != 0){
                 String result = data.getStringExtra(PROVINCIA);
-                Log.i(TAG, "Provincia - ".concat(result));
-                // Añadir datos a la lista
-                datos = new ArrayList<>();
-                datos.add(result);
-                adaptador1.notifyDataSetChanged();
+                if (result == null || result.equals("")) {
+                    Toast.makeText(getApplicationContext(),
+                            getString(R.string.text_toast_provincia_no_seleccionada), Toast.LENGTH_LONG).show();
+                } else {
+                    Log.i(TAG, "Provincia - ".concat(result));
+                    // Añadir datos a la lista
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString(PROVINCIA, result);
+                    editor.commit();
+                }
         } else {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.text_toast_provincia_salir), Toast.LENGTH_LONG).show();
@@ -148,7 +153,7 @@ public class U6StudentManuMain extends AppCompatActivity {
         Log.i(TAG, "Toast para ver provincia seleccionada");
 
         Toast provincias;
-        String provinciaUsuario = datos == null ? null : datos.size() == 1 ? datos.get(0) : null;
+        String provinciaUsuario = preferences.getString(PROVINCIA, null);
         if (provinciaUsuario == null) {
             provincias = Toast.makeText(getApplicationContext(),
                     getString(R.string.text_toast_provincia_no_seleccionada), Toast.LENGTH_SHORT);
