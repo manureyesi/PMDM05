@@ -114,14 +114,19 @@ public class U6StudentManu extends AppCompatActivity {
         Log.i(TAG, "Lanzamos la segunda activity");
         Intent intentActivity2 = new Intent(getApplicationContext(), U6StudentManuActivity2.class);
         startActivityForResult(intentActivity2, COD_PETICION);
+    }
 
-        String provincia = intentActivity2.getStringExtra(PROVINCIA);
-
-        // Comprobar provincia
-        if (provincia != null && !provincia.equals("")) {
-            provinciaUsuario = provincia;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        final String TAG = "onActivityResult:";
+        Log.i(TAG, "RequestCode - ".concat(String.valueOf(requestCode))
+                .concat(" ResultCode - ").concat(String.valueOf(resultCode)));
+        if(resultCode != 0){
+                String result = data.getStringExtra(PROVINCIA);
+                Log.i(TAG, "Provincia - ".concat(result));
+                // tu codigo para continuar procesando
+                provinciaUsuario = result;
         }
-
     }
 
     /**
