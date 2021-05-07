@@ -7,6 +7,7 @@
     <string name="text_email_asunto">Módulo PMDM</string>
     <string name="text_email_texto">Probando a enviar un mail desde mi app.</string>
     <string name="text_email_enviar">manureyesi@outlook.es</string>
+    <string name="email_destinatario">manureyesi@outlook.es</string>
     <string name="text_activity_2_provincias">Teclee una provincia</string>
     <string name="text_activity_2_boton">Cerrar</string>
     <string name="text_toast_provincia_seleccionada">La provincia tecleada es la {}</string>

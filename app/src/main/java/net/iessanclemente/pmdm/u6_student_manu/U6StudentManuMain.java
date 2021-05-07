@@ -92,7 +92,7 @@ public class U6StudentManuMain extends AppCompatActivity {
         final String TAG = "lanzarCorreo:";
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
 
-        String[] TO = {"manureyesi@outlook.es"}; //Direcciones email  a enviar.
+        String[] TO = {getString(R.string.email_destinatario)}; //Direcciones email  a enviar.
         String[] CC = {""}; //Direcciones email con copia.
 
         emailIntent.setData(Uri.parse("mailto:"));
