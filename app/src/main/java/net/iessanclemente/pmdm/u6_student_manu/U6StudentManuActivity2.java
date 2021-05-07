@@ -41,7 +41,7 @@ public class U6StudentManuActivity2 extends AppCompatActivity {
             Log.i(TAG, "Provincia - ".concat(this.textoProvincia.getText().toString()));
 
             Intent datos_vuelta = new Intent();
-            datos_vuelta.putExtra(U6StudentManu.PROVINCIA, this.textoProvincia.getText().toString());
+            datos_vuelta.putExtra(U6StudentManuMain.PROVINCIA, this.textoProvincia.getText().toString());
             setResult(RESULT_OK, datos_vuelta);
         }
 

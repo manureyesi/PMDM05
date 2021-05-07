@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class U6StudentManu extends AppCompatActivity {
+public class U6StudentManuMain extends AppCompatActivity {
 
     private Button botonCalc1;
     private Button botonProvincia2;
@@ -25,7 +25,7 @@ public class U6StudentManu extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_u6_student_manu_main);
 
         botonCalc1 = findViewById(R.id.button_1_calc);
         botonProvincia2 = findViewById(R.id.button_2_prov);
